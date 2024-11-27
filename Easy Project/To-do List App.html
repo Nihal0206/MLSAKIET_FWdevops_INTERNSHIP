@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Todo List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            background: linear-gradient(270deg, #6a11cb, #2575fc);
+            animation: gradient 10s ease infinite;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+        .todo-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 class="text-center">Todo List App</h1>
+    <div class="input-group mb-3">
+        <input type="text" id="taskInput" class="form-control" placeholder="Task description" aria-label="Task description">
+        <input type="date" id="dateInput" class="form-control">
+        <select id="categoryInput" class="form-control">
+            <option value="" disabled selected>Select category</option>
+            <option value="Work">Work</option>
+            <option value="Personal">Personal</option>
+            <option value="Study">Study</option>
+            <option value="Other">Other</option>
+        </select>
+        <div class="input-group-append">
+            <button class="btn btn-primary" id="addButton">Add</button>
+        </div>
+    </div>
+    <ul class="list-group" id="todoList"></ul>
+</div>
+
+<script>
+    document.getElementById('addButton').addEventListener('click', function() {
+        const taskInput = document.getElementById('taskInput');
+        const dateInput = document.getElementById('dateInput');
+        const categoryInput = document.getElementById('categoryInput');
+
+        const task = taskInput.value.trim();
+        const dueDate = dateInput.value;
+        const category = categoryInput.value;
+
+        if (task && dueDate && category) {
+            const li = document.createElement('li');
+            li.className = 'list-group-item todo-item';
+            li.innerHTML = `<strong>${task}</strong> <span class="text-muted">(${dueDate}, ${category})</span>`;
+
+            const deleteButton = document.createElement('button');
+            deleteButton.className = 'btn btn-danger btn-sm';
+            deleteButton.textContent = 'Delete';
+            deleteButton.onclick = function() {
+                li.remove();
+            };
+
+            li.appendChild(deleteButton);
+            document.getElementById('todoList').appendChild(li);
+            taskInput.value = '';
+            dateInput.value = '';
+            categoryInput.selectedIndex = 0; // Reset category
+        } else {
+            alert('Please fill in all fields.');
+        }
+    });
+</script>
+
+</body>
+</html>
